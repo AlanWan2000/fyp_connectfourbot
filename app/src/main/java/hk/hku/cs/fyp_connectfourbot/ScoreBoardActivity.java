@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.database.DataSnapshot;
@@ -74,5 +75,15 @@ public class ScoreBoardActivity extends AppCompatActivity {
                 return pdsCopy;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        //Back to MainActivity instead of prevActivity
+
+        Intent intent = new Intent(ScoreBoardActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

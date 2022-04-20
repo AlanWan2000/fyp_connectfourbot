@@ -168,7 +168,6 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
         Imgproc.rectangle(input, new Point(190, 460), new Point(500, 480), new Scalar(225, 225, 225), -1);
         checkBoardInit();
         if (!boardInit){
-            Mat Gray = new Mat();
 
             Imgproc.blur(input, input, new Size(3, 3), new Point(2, 2));
             Imgproc.cvtColor(input, cannyImg, Imgproc.COLOR_BGR2GRAY);
@@ -194,11 +193,7 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
                     point.add((int) circleVec[1]);
                     point.add(1);
                     addStablePoints(point);
-//                Log.i(TAG, String.valueOf("Circle "+ x +"; x,  y: " + point.get(1)) + ", " + String.valueOf(point.get(1)));
-//                Log.i(TAG, String.valueOf("Circle "+ x +"; x,  y: " + point));
-                    int radius = (int) circleVec[2];
 
-//                Imgproc.circle(input, center, 3, new Scalar(255, 255, 255), 5);
 
                     Imgproc.circle(cannyImg, center, 0, new Scalar(255, 255, 255), 20);
                 }
@@ -207,12 +202,10 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
 
             if (board.size() >0){
                 for (int x=0; x < board.size() ; x++ ) {
-//                ArrayList<Integer> coor = locatedPoints.get(x);
                     Log.i(TAG, String.valueOf("Number of Lines "+ board.get(x).size()));
                     Point p1 = new Point((int) board.get(x).get(0).get(0), (int) board.get(x).get(0).get(1));
                     Point p2 = new Point((int) board.get(x).get(board.get(x).size()-1).get(0), (int) board.get(x).get(board.get(x).size()-1).get(1));
                     Imgproc.line(cannyImg, p1, p2, new Scalar(255, 255, 255), 5);
-//                Log.i(TAG, String.valueOf("Located Circle "+ x +"; x,  y: " + coor.get(0) ) + ", " + String.valueOf(coor.get(1)));
                 }
             }
             Imgproc.line(cannyImg, new Point(190, 0), new Point(190, 480), new Scalar(255, 255, 255), 5);
@@ -262,8 +255,6 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
 
     public void addStablePoints(ArrayList circleVec){
         int i = isStablePoints(circleVec);
-//        Log.i(TAG, String.valueOf(i));
-//        Log.i(TAG, String.valueOf("Circle ; x,  y: " + circleVec.get(0) ) + ", " + String.valueOf(circleVec.get(1)));
         if(i == -1){
             //add new
             stablePoints.add(circleVec);
@@ -287,17 +278,14 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
             //add count
             ArrayList<Integer> tempPoint = stablePoints.get(i);
             int tempCount = tempPoint.get(2) + 1;
-//            Log.i(TAG, String.valueOf(tempCount));
             tempPoint.set(2, tempCount);
             stablePoints.set(i, tempPoint);
         }
     }
 
     public int isStablePoints(ArrayList circleVec){
-        boolean state = false;
         for (int i = 0; i < stablePoints.size(); i++) {
             if (Math.abs((int)circleVec.get(0)-stablePoints.get(i).get(0)) <= precision && Math.abs((int)circleVec.get(1)-stablePoints.get(i).get(1)) <= precision){
-//                Log.i(TAG, String.valueOf(stablePoints.get(i).get(2)));
                 if (stablePoints.get(i).get(2) == 5){
                     return -2;
                 }
@@ -309,14 +297,11 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
 
     public ArrayList<ArrayList<ArrayList<Integer>>> getInlines() {
         ArrayList<ArrayList<Integer>> sortedArray = sortTheArray((ArrayList<ArrayList<Integer>>) locatedPoints.clone(), 0);
-        int head = 0;
-        int tail = 1;
         ArrayList<ArrayList<ArrayList<Integer>>> tempBoard = new ArrayList<>();
         ArrayList<ArrayList<Integer>> lineArray = new ArrayList<>();
         lineArray.add(sortedArray.get(0));
         for (int i = 1; i < sortedArray.size(); i++) {
             ArrayList<Integer> coor = sortedArray.get(i);
-//            Log.i(TAG, String.valueOf("Located!!! Circle "+ i +"; x,  y: " + coor.get(0) ) + ", " + String.valueOf(coor.get(1)));
             if (sortedArray.get(i).get(0) - sortedArray.get(i-1).get(0) > 10){
                 //They are not on the same line
                 tempBoard.add(sortTheArray(lineArray, 1));
@@ -332,10 +317,6 @@ public class AutoActivity extends AppCompatActivity implements CameraBridgeViewB
                 lineArray.add(sortedArray.get(i));
             }
         }
-//        for (int i = 0; i < tempBoard.size(); i++) {
-//            ArrayList<ArrayList<Integer>> sortedLineByY = sortTheArray(tempBoard.get(i), 1);
-//            tempBoard.set(i, sortedLineByY);
-//        }
         return tempBoard;
     }
 

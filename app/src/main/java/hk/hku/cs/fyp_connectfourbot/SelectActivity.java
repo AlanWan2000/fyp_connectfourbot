@@ -92,20 +92,6 @@ public class SelectActivity extends AppCompatActivity {
     public void onBackPressed(){
         //Back to MainActivity instead of prevActivity
 
-        //Prompt
-//        builder.setMessage("Are you sure?").setTitle("ALERT").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface arg0, int arg1) {
-//                Intent intent = new Intent(SelectActivity.this, MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                finish();
-//            }
-//
-//        }).setNegativeButton("Cancel", doNothing());
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-
         Intent intent = new Intent(SelectActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
